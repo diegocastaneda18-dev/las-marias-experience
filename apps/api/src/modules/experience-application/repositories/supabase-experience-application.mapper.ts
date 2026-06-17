@@ -45,9 +45,12 @@ export type ExperienceDocumentRow = {
   reviewed_at: string | null;
 };
 
-export function recordToRow(record: ExperienceApplicationRecord): ExperienceApplicationRow {
+/** Row shape for INSERT — snake_case only, no client id (Supabase default gen_random_uuid()). */
+export type ExperienceApplicationInsertRow = Omit<ExperienceApplicationRow, "id">;
+
+export function recordToInsertRow(record: ExperienceApplicationRecord): ExperienceApplicationInsertRow {
+  const now = record.createdAt || new Date().toISOString();
   return {
-    id: record.id,
     folio: record.folio,
     status: record.status,
     applicant: record.applicant,
@@ -68,8 +71,16 @@ export function recordToRow(record: ExperienceApplicationRecord): ExperienceAppl
     license_pdf_path: record.licensePdfPath ?? null,
     license_url: record.licenseUrl ?? null,
     qr_validation_url: record.qrValidationUrl ?? null,
-    created_at: record.createdAt,
-    updated_at: record.updatedAt
+    created_at: now,
+    updated_at: record.updatedAt || now
+  };
+}
+
+export function recordToRow(record: ExperienceApplicationRecord): ExperienceApplicationRow {
+  const insertRow = recordToInsertRow(record);
+  return {
+    id: record.id,
+    ...insertRow
   };
 }
 

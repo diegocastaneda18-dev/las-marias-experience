@@ -166,21 +166,21 @@ export class ExperienceApplicationService {
 
 
 
-    await this.repository.create(record);
+    const created = await this.repository.create(record);
 
-    void this.emailService.sendAfterCreate(record);
+    void this.emailService.sendAfterCreate(created);
 
 
 
     return {
 
-      id: record.id,
+      id: created.id,
 
-      folio: record.folio,
+      folio: created.folio,
 
-      status: record.status,
+      status: created.status,
 
-      createdAt: record.createdAt,
+      createdAt: created.createdAt,
 
       applicant: {
 

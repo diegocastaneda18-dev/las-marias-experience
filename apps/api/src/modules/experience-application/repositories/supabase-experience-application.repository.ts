@@ -1,15 +1,16 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
 import type {
   ExperienceApplicationDocument,
   ExperienceApplicationRecord,
   ExperienceDocumentStatus
 } from "@bluecup/types";
 import { logExperienceSupabase } from "../lib/experience-supabase-log";
+import { formatSupabaseError, logSupabaseFailure } from "../lib/supabase-error.util";
 import { getSupabaseAdminClient } from "../lib/supabase-admin.client";
 import type { ExperienceApplicationRepository, IssueLicenseData } from "./experience-application.repository";
 import {
   documentToRow,
-  recordToRow,
+  recordToInsertRow,
   rowToDocument,
   rowToRecord,
   type ExperienceApplicationRow,
@@ -70,16 +71,44 @@ export class SupabaseExperienceApplicationRepository implements ExperienceApplic
   }
 
   async create(record: ExperienceApplicationRecord): Promise<ExperienceApplicationRecord> {
-    const row = recordToRow(record);
-    const { error } = await this.client().from(APPLICATIONS_TABLE).insert(row);
+    const row = recordToInsertRow(record);
+
+    console.log("[Experience Supabase] create application start", {
+      folio: row?.folio,
+      status: row?.status,
+      storageDriver: process.env.EXPERIENCE_STORAGE_DRIVER,
+      hasSupabaseUrl: Boolean(process.env.SUPABASE_URL),
+      hasServiceKey: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY)
+    });
+
+    const { data, error } = await this.client()
+      .from(APPLICATIONS_TABLE)
+      .insert(row)
+      .select()
+      .single();
+
     if (error) {
-      this.logger.error(`Create failed for ${record.folio}: ${error.message}`);
-      throw new Error(error.message);
+      logSupabaseFailure("create application", error, { rowKeys: Object.keys(row ?? {}) });
+      throw new InternalServerErrorException(
+        formatSupabaseError(error) || "No se pudo crear la solicitud en Supabase"
+      );
     }
 
+    console.log("[Experience Supabase] create application success", {
+      folio: data?.folio
+    });
+
     await this.appendStatusHistory(record.folio, null, record.status, "Solicitud creada");
-    logExperienceSupabase("create application", { folio: record.folio, id: record.id });
-    return record;
+    logExperienceSupabase("create application", { folio: data.folio, id: data.id });
+
+    return {
+      ...record,
+      id: data.id,
+      folio: data.folio,
+      status: data.status,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at
+    };
   }
 
   async findByFolio(folio: string): Promise<ExperienceApplicationRecord | null> {
@@ -114,15 +143,18 @@ export class SupabaseExperienceApplicationRepository implements ExperienceApplic
 
   async countByYear(year: number): Promise<number> {
     const prefix = `LME-${year}-`;
-    const { count, error } = await this.client()
+    const { data, error } = await this.client()
       .from(APPLICATIONS_TABLE)
-      .select("folio", { count: "exact", head: true })
+      .select("folio")
       .like("folio", `${prefix}%`);
 
     if (error) {
-      throw new Error(error.message);
+      logSupabaseFailure("countByYear", error, { year });
+      throw new InternalServerErrorException(
+        formatSupabaseError(error) || "No se pudo calcular el folio en Supabase"
+      );
     }
-    return count ?? 0;
+    return data?.length ?? 0;
   }
 
   async list(): Promise<ExperienceApplicationRecord[]> {

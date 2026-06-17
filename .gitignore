@@ -86,3 +86,11 @@ apps/web/Ctrl
 .env.local
 apps/api/.env.local
 apps/web/.env.local
+
+# Local env files
+.env
+.env.local
+apps/api/.env
+apps/api/.env.local
+apps/web/.env
+apps/web/.env.local
