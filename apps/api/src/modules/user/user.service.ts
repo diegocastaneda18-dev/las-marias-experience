@@ -1,10 +1,10 @@
-import {
+﻿import {
   BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException
 } from "@nestjs/common";
-import { Role } from "@prisma/client";
+import { Role } from "./user-role.type";
 import * as argon2 from "argon2";
 import { PrismaService } from "../../infra/prisma/prisma.service";
 import { AuditService } from "../audit/audit.service";
@@ -314,3 +314,4 @@ export class UserService {
     return { ok: true };
   }
 }
+

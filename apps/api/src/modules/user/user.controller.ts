@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
-import { Role } from "@prisma/client";
+﻿import { Body, Controller, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
+import { Role } from "./user-role.type";
 import type { JwtUser } from "@bluecup/types";
 import { JwtAuthGuard } from "../auth/jwt.guard";
 import { Roles } from "../auth/roles.decorator";
@@ -67,3 +67,4 @@ export class UserController {
     });
   }
 }
+
