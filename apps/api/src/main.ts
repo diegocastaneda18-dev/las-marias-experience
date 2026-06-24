@@ -3,7 +3,12 @@ import { NestExpressApplication } from "@nestjs/platform-express";
 import { join } from "path";
 import { AppModule } from "./app.module";
 
-const ALLOWED_ORIGINS = ["http://localhost:3003", "http://localhost:3000"];
+const ALLOWED_ORIGINS = [
+  "http://localhost:3000",
+  "http://localhost:3003",
+  "http://localhost:3004",
+  "http://127.0.0.1:3004"
+];
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
