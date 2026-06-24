@@ -7,7 +7,8 @@ const ALLOWED_ORIGINS = [
   "http://localhost:3000",
   "http://localhost:3003",
   "http://localhost:3004",
-  "http://127.0.0.1:3004"
+  "http://127.0.0.1:3004",
+  "https://las-marias-experience-web.vercel.app"
 ];
 
 async function bootstrap() {
