@@ -1,6 +1,7 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import type { JwtUser, Role } from "@bluecup/types";
+import type { JwtUser } from "@bluecup/types";
+import type { Role } from "./role.type";
 import { ROLES_KEY } from "./roles.decorator";
 
 @Injectable()

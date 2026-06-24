@@ -3,7 +3,8 @@ import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
 import * as argon2 from "argon2";
 import { PrismaService } from "../../infra/prisma/prisma.service";
-import type { JwtUser, Role } from "@bluecup/types";
+import type { JwtUser } from "@bluecup/types";
+import type { Role } from "./role.type";
 import { AuditService } from "../audit/audit.service";
 
 @Injectable()
