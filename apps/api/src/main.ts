@@ -26,7 +26,7 @@ async function bootstrap() {
   const port = Number(process.env.PORT) || 4000;
   await app.listen(port, "0.0.0.0");
 
-  console.log(`Blue Cup API listening on port ${port}`);
+  console.log(`Las Marías Experience API listening on port ${port}`);
   console.log(`Health check: http://localhost:${port}/api/health`);
 }
 

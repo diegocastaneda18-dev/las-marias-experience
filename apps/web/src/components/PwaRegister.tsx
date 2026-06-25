@@ -37,7 +37,7 @@ export function PwaRegister() {
   return (
     <div className="fixed inset-x-0 bottom-[calc(4.75rem+env(safe-area-inset-bottom))] z-[60] px-4 md:bottom-4 md:left-auto md:right-4 md:max-w-sm md:px-0 lg:bottom-4">
       <div className="rounded-2xl border border-amber-400/25 bg-slate-900/95 p-4 shadow-2xl shadow-black/40 backdrop-blur-md">
-        <p className="text-sm font-semibold text-slate-50">Install Blue Cup</p>
+        <p className="text-sm font-semibold text-slate-50">Instalar Las Marías Experience</p>
         <p className="mt-1 text-xs leading-relaxed text-slate-400">
           Add to your home screen for quick catch logging and live standings on the water.
         </p>

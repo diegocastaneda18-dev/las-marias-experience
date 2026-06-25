@@ -62,7 +62,7 @@ export function ExperienceHero({ videoAvailable = true }: ExperienceHeroProps) {
 
       <div className="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 sm:pt-32">
         <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-maria-ocean-light">
-          Reserva natural · Costa Rica
+          Reserva de la Biósfera · Islas Marías · México
         </p>
         <h1 className="mt-4 max-w-3xl font-display text-4xl font-semibold leading-[1.05] tracking-tight text-maria-pearl sm:text-5xl lg:text-6xl">
           Ecoturismo de lujo en el corazón del Pacífico

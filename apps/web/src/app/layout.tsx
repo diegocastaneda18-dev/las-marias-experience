@@ -26,7 +26,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: `${brandName} · Ecoturismo de lujo`,
   description:
-    "Yates privados, pesca deportiva, surf, buceo, bodas y experiencias a medida en la reserva natural Las Marías, Costa Rica.",
+    "Yates privados, pesca deportiva, surf, buceo, bodas y experiencias a medida en la Reserva de la Biósfera Islas Marías, México.",
   applicationName: brandName,
   manifest: "/manifest.json",
   appleWebApp: {

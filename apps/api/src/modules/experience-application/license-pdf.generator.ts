@@ -30,9 +30,9 @@ const SPACING = {
 } as const;
 
 const TRANSPORT_LABELS: Record<string, string> = {
-  vessel: "EmbarcaciÃ³n",
+  vessel: "Embarcación",
   aircraft: "Aeronave",
-  both: "EmbarcaciÃ³n y aeronave",
+  both: "Embarcación y aeronave",
   none: "Sin transporte propio"
 };
 
@@ -54,7 +54,7 @@ const DOCUMENT_STATUS_LABELS: Record<string, string> = {
 };
 
 function display(value: unknown): string {
-  if (value == null || value === "") return "â€”";
+  if (value == null || value === "") return "—";
   return String(value);
 }
 
@@ -133,26 +133,26 @@ function drawHeader(doc: PDFKit.PDFDocument, layout: Layout, folio: string) {
     .font("Helvetica-Bold")
     .fontSize(FONT.headerBrand)
     .fillColor(FOREST)
-    .text("LAS MARÃAS EXPERIENCE", contentX, headerTop, { width: leftWidth, lineGap: 2 });
+    .text("LAS MARÍAS EXPERIENCE", contentX, headerTop, { width: leftWidth, lineGap: 2 });
 
   doc
     .font("Helvetica")
     .fontSize(FONT.headerMeta)
     .fillColor(GRAY)
-    .text("MR Lucky Eventos y MÃ¡s", contentX, doc.y, { width: leftWidth, lineGap: 2 })
-    .text("CoordinaciÃ³n de Ingreso y Experiencias Privadas")
-    .text("Reserva de la BiÃ³sfera Islas MarÃ­as");
+    .text("MR Lucky Eventos y Más", contentX, doc.y, { width: leftWidth, lineGap: 2 })
+    .text("Coordinación de Ingreso y Experiencias Privadas")
+    .text("Reserva de la Biósfera Islas Marías");
 
   doc
     .font("Helvetica-Bold")
     .fontSize(FONT.headerBrand)
     .fillColor(FOREST)
-    .text("Licencia de CoordinaciÃ³n de Ingreso", rightX, headerTop, {
+    .text("Licencia de Coordinación de Ingreso", rightX, headerTop, {
       width: rightWidth,
       align: "right",
       lineGap: 2
     })
-    .text("a la Reserva de la BiÃ³sfera Islas MarÃ­as", { align: "right" });
+    .text("a la Reserva de la Biósfera Islas Marías", { align: "right" });
 
   doc
     .font("Helvetica")
@@ -181,26 +181,26 @@ export async function generateLicensePdfFile(
 
   layout.sectionTitle("Asunto");
   layout.gap(6);
-  layout.paragraph("Se emite licencia de coordinaciÃ³n de ingreso y egreso.", {
+  layout.paragraph("Se emite licencia de coordinación de ingreso y egreso.", {
     align: "left",
     lineGap: 4
   });
   layout.gap(SPACING.section);
 
   layout.paragraph(
-    `Lugar y fecha: Islas MarÃ­as / Puerto Vallarta / Guadalajara, a ${formatLongDate(options.issuedAt)}.`,
+    `Lugar y fecha: Islas Marías / Puerto Vallarta / Guadalajara, a ${formatLongDate(options.issuedAt)}.`,
     { lineGap: 4 }
   );
   layout.gap(SPACING.paragraph);
 
   layout.paragraph(
-    "Destinatario: A quien corresponda: CapitanÃ­a, administraciÃ³n, operador, autoridad revisora o personal de control de ingreso.",
+    "Destinatario: A quien corresponda: Capitanía, administración, operador, autoridad revisora o personal de control de ingreso.",
     { lineGap: 4 }
   );
   layout.gap(SPACING.section);
 
   layout.paragraph(
-    `Antecedente: Solicitud registrada en Las MarÃ­as Experience, folio ${record.folio}, capturada por ${record.applicant.fullName}, de fecha ${formatLongDate(record.createdAt)}.`,
+    `Antecedente: Solicitud registrada en Las Marías Experience, folio ${record.folio}, capturada por ${record.applicant.fullName}, de fecha ${formatLongDate(record.createdAt)}.`,
     { lineGap: 4 }
   );
   layout.gap(SPACING.paragraph);
@@ -210,14 +210,14 @@ export async function generateLicensePdfFile(
     .fontSize(FONT.body)
     .fillColor(GRAY)
     .text(
-      `Por medio de la presente, Las MarÃ­as Experience, operado por MR Lucky Eventos y MÃ¡s, hace constar la coordinaciÃ³n operativa de ingreso y egreso al ArchipiÃ©lago Islas MarÃ­as conforme al expediente digital ${record.folio}.`,
+      `Por medio de la presente, Las Marías Experience, operado por MR Lucky Eventos y Más, hace constar la coordinación operativa de ingreso y egreso al Archipiélago Islas Marías conforme al expediente digital ${record.folio}.`,
       layout.contentX,
       doc.y,
       { width: layout.contentWidth, align: "justify", lineGap: 4, paragraphGap: 6 }
     );
   layout.gap(SPACING.section);
 
-  layout.sectionTitle("Se autoriza para efectos de coordinaciÃ³n operativa");
+  layout.sectionTitle("Se autoriza para efectos de coordinación operativa");
   layout.gap(SPACING.paragraph);
 
   const activities = record.activities.experienceTypes
@@ -227,12 +227,12 @@ export async function generateLicensePdfFile(
   layout.field("Solicitante", record.applicant.fullName);
   layout.field("Empresa", record.applicant.company);
   layout.field("Nacionalidad", record.applicant.nationality);
-  layout.field("TelÃ©fono", record.applicant.phone);
+  layout.field("Teléfono", record.applicant.phone);
   layout.field("Correo", record.applicant.email);
   layout.field("Tipo de ingreso", TRANSPORT_LABELS[record.transport.type] ?? record.transport.type);
-  layout.field("EmbarcaciÃ³n / aeronave", record.transport.vesselName || record.transport.aircraftType);
+  layout.field("Embarcación / aeronave", record.transport.vesselName || record.transport.aircraftType);
   layout.field(
-    "MatrÃ­cula / registro",
+    "Matrícula / registro",
     record.transport.vesselRegistration || record.transport.aircraftRegistration
   );
   layout.field("Eslora (m)", record.transport.vesselLengthM);
@@ -241,7 +241,7 @@ export async function generateLicensePdfFile(
   layout.field("Fecha de ingreso", formatLongDate(record.itinerary.arrivalDate));
   layout.field(
     "Fecha de egreso",
-    record.itinerary.departureDate ? formatLongDate(record.itinerary.departureDate) : "â€”"
+    record.itinerary.departureDate ? formatLongDate(record.itinerary.departureDate) : "—"
   );
   layout.field("Personas a bordo", record.peopleOnBoard.total);
   layout.field("Actividades autorizadas", activities);
@@ -254,12 +254,12 @@ export async function generateLicensePdfFile(
   layout.gap(SPACING.paragraph);
 
   layout.paragraph(
-    "La presente licencia de coordinaciÃ³n no sustituye permisos, despachos, autorizaciones, inspecciones o determinaciones de autoridades competentes. El ingreso, permanencia y egreso quedan sujetos a la normatividad aplicable, lineamientos de la Reserva de la BiÃ³sfera Islas MarÃ­as, instrucciones del personal autorizado, condiciones meteorolÃ³gicas, validaciÃ³n documental y revisiÃ³n operativa correspondiente.",
+    "La presente licencia de coordinación no sustituye permisos, despachos, autorizaciones, inspecciones o determinaciones de autoridades competentes. El ingreso, permanencia y egreso quedan sujetos a la normatividad aplicable, lineamientos de la Reserva de la Biósfera Islas Marías, instrucciones del personal autorizado, condiciones meteorológicas, validación documental y revisión operativa correspondiente.",
     { align: "justify", lineGap: 4 }
   );
   layout.gap(SPACING.paragraph);
   layout.paragraph(
-    "El solicitante manifiesta que la informaciÃ³n proporcionada es veraz y que las personas, embarcaciÃ³n, aeronave, documentos y actividades declaradas corresponden al expediente registrado.",
+    "El solicitante manifiesta que la información proporcionada es veraz y que las personas, embarcación, aeronave, documentos y actividades declaradas corresponden al expediente registrado.",
     { align: "justify", lineGap: 4 }
   );
 
@@ -272,7 +272,7 @@ export async function generateLicensePdfFile(
     doc.font("Helvetica").fontSize(FONT.field).fillColor(GRAY);
     for (const item of documents) {
       doc.text(
-        `â€¢ ${item.label} â€” ${item.originalName} â€” ${DOCUMENT_STATUS_LABELS[item.status] ?? item.status}`,
+        `• ${item.label} — ${item.originalName} — ${DOCUMENT_STATUS_LABELS[item.status] ?? item.status}`,
         layout.contentX,
         doc.y,
         { width: layout.contentWidth, lineGap: 4, paragraphGap: 4 }
@@ -291,15 +291,15 @@ export async function generateLicensePdfFile(
     .font("Helvetica-Bold")
     .fontSize(FONT.section)
     .fillColor(FOREST)
-    .text("DirecciÃ³n de Operaciones", layout.contentX, doc.y, { width: layout.contentWidth });
+    .text("Dirección de Operaciones", layout.contentX, doc.y, { width: layout.contentWidth });
   doc
     .font("Helvetica")
     .fontSize(FONT.body)
     .fillColor(GRAY)
-    .text("Las MarÃ­as Experience", layout.contentX, doc.y, { width: layout.contentWidth })
-    .text("MR Lucky Eventos y MÃ¡s");
+    .text("Las Marías Experience", layout.contentX, doc.y, { width: layout.contentWidth })
+    .text("MR Lucky Eventos y Más");
   layout.gap(SPACING.paragraph);
-  layout.paragraph("Copias: Expediente digital Â· Solicitante Â· Control operativo", {
+  layout.paragraph("Copias: Expediente digital · Solicitante · Control operativo", {
     lineGap: 3
   });
 
@@ -314,7 +314,7 @@ export async function generateLicensePdfFile(
     .fontSize(FONT.footer)
     .fillColor(GRAY)
     .text(
-      `Documento generado digitalmente. Folio: ${record.folio}. Fecha de emisiÃ³n: ${formatLongDate(options.issuedAt)}. PÃ¡gina 1 de 1.`,
+      `Documento generado digitalmente. Folio: ${record.folio}. Fecha de emisión: ${formatLongDate(options.issuedAt)}. Página 1 de 1.`,
       layout.contentX,
       doc.page.height - 46,
       { align: "center", width: layout.contentWidth, lineGap: 2 }

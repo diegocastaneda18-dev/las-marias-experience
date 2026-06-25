@@ -1,5 +1,5 @@
 /**
- * Public (browser + server) environment for Blue Cup web.
+ * Public browser and server environment for Las Marías Experience web.
  * Set `NEXT_PUBLIC_*` in `.env.local` or deployment config — see `apps/web/.env.example`.
  */
 

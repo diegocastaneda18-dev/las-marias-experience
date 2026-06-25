@@ -64,7 +64,7 @@ export function ExperienceBrand({
   const tagline =
     showTagline && variant !== "isotipo" ? (
       <p className="mt-3 max-w-xs text-center text-xs font-medium uppercase tracking-[0.22em] text-maria-ocean-light/90 sm:text-[11px]">
-        Ecoturismo de lujo · Costa Rica
+        Ecoturismo de lujo · Islas Marías · México
       </p>
     ) : null;
 

@@ -130,7 +130,7 @@ export function formatDateTime(iso: string | null | undefined): string {
   if (!iso) return "—";
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
-  return new Intl.DateTimeFormat("es-CR", {
+  return new Intl.DateTimeFormat("es-MX", {
     dateStyle: "medium",
     timeStyle: "short"
   }).format(d);
@@ -140,7 +140,7 @@ export function formatDate(iso: string | null | undefined): string {
   if (!iso) return "—";
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
-  return new Intl.DateTimeFormat("es-CR", { dateStyle: "medium" }).format(d);
+  return new Intl.DateTimeFormat("es-MX", { dateStyle: "medium" }).format(d);
 }
 
 function normalizeApplicationsResponse(result: unknown): ExperienceApplicationRecord[] {
@@ -212,7 +212,7 @@ async function adminProxyFetch<T>(proxyPath: string, init?: RequestInit): Promis
   return result as T;
 }
 
-/** Temporary dev login — replace with Supabase Auth. */
+/** Admin access verification for password mode. */
 export async function verifyAdminAccess(password: string): Promise<boolean> {
   const res = await fetch(`${getPublicApiBaseUrl()}/api/admin/verify-access`, {
     method: "POST",
