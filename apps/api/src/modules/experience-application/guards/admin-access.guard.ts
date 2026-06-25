@@ -1,4 +1,4 @@
-import {
+﻿import {
   CanActivate,
   ExecutionContext,
   ForbiddenException,
@@ -40,14 +40,6 @@ export class AdminAccessGuard implements CanActivate {
     const token =
       authHeader?.startsWith("Bearer ") ? authHeader.slice("Bearer ".length).trim() : "";
 
-    console.log("[AdminAccessGuard] auth check", {
-      hasAuthorizationHeader: Boolean(authHeader),
-      hasBearerToken: Boolean(token),
-      tokenLength: token.length,
-      adminAllowedEmails: process.env.ADMIN_ALLOWED_EMAILS || null,
-      supabaseUrl: process.env.SUPABASE_URL || null
-    });
-
     if (!token) {
       throw new UnauthorizedException("Sesión admin requerida.");
     }
@@ -56,23 +48,11 @@ export class AdminAccessGuard implements CanActivate {
       const { data, error } = await getSupabaseAdminClient().auth.getUser(token);
 
       if (error || !data.user) {
-        console.error("[AdminAccessGuard] Supabase getUser failed", {
-          errorMessage: error?.message || null,
-          errorStatus: error?.status || null,
-          hasUser: Boolean(data.user)
-        });
-
         throw new UnauthorizedException("Sesión admin no válida.");
       }
 
       const email = data.user.email?.trim().toLowerCase() || "";
       const allowedEmails = getAllowedAdminEmails();
-
-      console.log("[AdminAccessGuard] Supabase user resolved", {
-        email,
-        allowedEmails,
-        isAllowed: allowedEmails.includes(email)
-      });
 
       if (!allowedEmails.includes(email)) {
         throw new ForbiddenException("Tu correo no está autorizado como administrador.");
@@ -83,10 +63,6 @@ export class AdminAccessGuard implements CanActivate {
       if (err instanceof UnauthorizedException || err instanceof ForbiddenException) {
         throw err;
       }
-
-      console.error("[AdminAccessGuard] Unexpected validation error", {
-        message: err instanceof Error ? err.message : String(err)
-      });
 
       throw new UnauthorizedException("No se pudo validar la sesión admin.");
     }
